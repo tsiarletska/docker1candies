@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: candy-store-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/instance
+    networks:
+      - candy-store-network
+
+  frontend:
+    build: ./frontend
+    container_name: candy-store-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - candy-store-network
+
+networks:
+  candy-store-network:
+    driver: bridge
+
+volumes:
+  backend_data:
